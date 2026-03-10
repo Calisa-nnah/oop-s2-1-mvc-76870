@@ -1,4 +1,6 @@
-﻿namespace Library.MVC.Models
+﻿using System;
+
+namespace Library.MVC.Models
 {
     public class Loan
     {

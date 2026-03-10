@@ -1,6 +1,6 @@
 ﻿using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
-using Library.Domain;
+using Library.MVC.Models;
 
 namespace Library.MVC.Data
 {
@@ -10,6 +10,24 @@ namespace Library.MVC.Data
             : base(options)
         {
         }
-        public DbSet<Library.Domain.Products> Products { get; set; } = default!;
+
+        public DbSet<Book> Books { get; set; } = default!;
+        public DbSet<Member> Members { get; set; } = default!;
+        public DbSet<Loan> Loans { get; set; } = default!;
+
+        protected override void OnModelCreating(ModelBuilder builder)
+        {
+            base.OnModelCreating(builder);
+
+            builder.Entity<Loan>()
+                .HasOne(l => l.Book)
+                .WithMany(b => b.Loans)
+                .HasForeignKey(l => l.BookId);
+
+            builder.Entity<Loan>()
+                .HasOne(l => l.Member)
+                .WithMany(m => m.Loans)
+                .HasForeignKey(l => l.MemberId);
+        }
     }
 }

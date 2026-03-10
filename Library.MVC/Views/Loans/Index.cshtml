@@ -1,0 +1,65 @@
+﻿@model IEnumerable<Library.MVC.Models.Loan>
+
+@{
+    ViewData["Title"] = "Loans";
+}
+
+<h1>Loans</h1>
+
+<p>
+    <a asp-action="Create" class="btn btn-primary">Create New Loan</a>
+</p>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>Book</th>
+            <th>Member</th>
+            <th>Loan Date</th>
+            <th>Due Date</th>
+            <th>Returned Date</th>
+            <th>Status</th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            var isOverdue = item.DueDate < DateTime.Today && item.ReturnedDate == null;
+
+            <tr>
+                <td>@item.Book?.Title</td>
+                <td>@item.Member?.FullName</td>
+                <td>@item.LoanDate.ToShortDateString()</td>
+                <td>@item.DueDate.ToShortDateString()</td>
+                <td>@(item.ReturnedDate?.ToShortDateString() ?? "Not Returned")</td>
+                <td>
+                    @if (item.ReturnedDate != null)
+                    {
+                        <span class="badge bg-success">Returned</span>
+                    }
+                    else if (isOverdue)
+                    {
+                        <span class="badge bg-danger">Overdue</span>
+                    }
+                    else
+                    {
+                        <span class="badge bg-warning text-dark">Active</span>
+                    }
+                </td>
+                <td>
+                    <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
+                    <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
+                    <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
+
+                    @if (item.ReturnedDate == null)
+                    {
+                        <form asp-action="Return" asp-route-id="@item.Id" method="post" style="display:inline;">
+                            <button type="submit" class="btn btn-link p-0 ms-2">Mark Returned</button>
+                        </form>
+                    }
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
