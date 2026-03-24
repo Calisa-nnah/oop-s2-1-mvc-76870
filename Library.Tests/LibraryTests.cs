@@ -8,7 +8,7 @@ namespace Library.Tests
     /// Basic unit tests to validate simple behaviors used while developing the library sample.
     /// These are lightweight sanity checks, not exhaustive domain tests.
    
-    public class BasicTest
+    public class LibraryTests
     {
       
         /// Simple arithmetic test to ensure test project is running and assertions work.
