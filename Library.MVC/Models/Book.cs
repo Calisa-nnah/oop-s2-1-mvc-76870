@@ -1,5 +1,6 @@
 ﻿// Import List collection (used for storing multiple related records)
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 
 namespace Library.MVC.Models
 {
@@ -16,6 +17,8 @@ namespace Library.MVC.Models
         public string Author { get; set; } = string.Empty;
 
         // ISBN (unique identifier for books globally)
+        [Display(Name = "ISBN")]
+
         public string Isbn { get; set; } = string.Empty;
 
         // Category or genre of the book (e.g., Fiction, Science)
